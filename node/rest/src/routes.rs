@@ -17,7 +17,8 @@ use super::*;
 use rayon::prelude::*;
 use serde::{Deserialize, Serialize};
 use snarkos_node_env::ENV_INFO;
-use snarkvm::prelude::{Identifier, Plaintext, Transaction};
+use snarkvm::prelude::{Identifier, Plaintext, Transaction, ViewKey, RecordsFilter};
+use indexmap::IndexMap;
 
 /// The `get_blocks` query object.
 #[derive(Deserialize, Serialize)]
@@ -251,5 +252,20 @@ impl<N: Network, C: ConsensusStorage<N>, R: Routing<N>> Rest<N, C, R> {
         rest.routing.propagate(message, &[]);
 
         Ok(ErasedJson::pretty(tx_id))
+    }
+
+    pub(crate) async fn get_records_all(State(rest): State<Self>, Query(view_key): Query<ViewKey<N>>) -> Result<ErasedJson, RestError> {
+        let records: IndexMap<_, _> = rest.ledger.find_records(&view_key, RecordsFilter::All).unwrap().collect();
+        Ok(ErasedJson::pretty(records))
+    }
+
+    pub(crate) async fn get_records_spent(State(rest): State<Self>, Query(view_key): Query<ViewKey<N>>) -> Result<ErasedJson, RestError> {
+        let records: IndexMap<_, _> = rest.ledger.find_records(&view_key, RecordsFilter::Spent).unwrap().collect();
+        Ok(ErasedJson::pretty(records))
+    }
+
+    pub(crate) async fn get_records_unspent(State(rest): State<Self>, Query(view_key): Query<ViewKey<N>>) -> Result<ErasedJson, RestError> {
+        let records: IndexMap<_, _> = rest.ledger.find_records(&view_key, RecordsFilter::Unspent).unwrap().collect();
+        Ok(ErasedJson::pretty(records))
     }
 }
