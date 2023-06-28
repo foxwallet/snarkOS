@@ -142,9 +142,9 @@ impl<N: Network, C: ConsensusStorage<N>, R: Routing<N>> Rest<N, C, R> {
             .route("/testnet3/beacons", get(Self::get_beacons))
             .route("/testnet3/node/address", get(Self::get_node_address))
             .route("/testnet3/node/env", get(Self::get_env_info))
-            .route("/testnet3/records/all", get(Self::get_records_all))
-            .route("/testnet3/records/spent", get(Self::get_records_spent))
-            .route("/testnet3/records/unspent", get(Self::get_records_unspent))
+            .route("/testnet3/records/all/:view_key", get(Self::get_records_all))
+            .route("/testnet3/records/spent/:view_key", get(Self::get_records_spent))
+            .route("/testnet3/records/unspent/:view_key", get(Self::get_records_unspent))
 
             // Pass in `Rest` to make things convenient.
             .with_state(self.clone())

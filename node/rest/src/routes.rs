@@ -254,17 +254,17 @@ impl<N: Network, C: ConsensusStorage<N>, R: Routing<N>> Rest<N, C, R> {
         Ok(ErasedJson::pretty(tx_id))
     }
 
-    pub(crate) async fn get_records_all(State(rest): State<Self>, Query(view_key): Query<ViewKey<N>>) -> Result<ErasedJson, RestError> {
+    pub(crate) async fn get_records_all(State(rest): State<Self>, Path(view_key): Path<ViewKey<N>>) -> Result<ErasedJson, RestError> {
         let records: IndexMap<_, _> = rest.ledger.find_records(&view_key, RecordsFilter::All).unwrap().collect();
         Ok(ErasedJson::pretty(records))
     }
 
-    pub(crate) async fn get_records_spent(State(rest): State<Self>, Query(view_key): Query<ViewKey<N>>) -> Result<ErasedJson, RestError> {
+    pub(crate) async fn get_records_spent(State(rest): State<Self>, Path(view_key): Path<ViewKey<N>>) -> Result<ErasedJson, RestError> {
         let records: IndexMap<_, _> = rest.ledger.find_records(&view_key, RecordsFilter::Spent).unwrap().collect();
         Ok(ErasedJson::pretty(records))
     }
 
-    pub(crate) async fn get_records_unspent(State(rest): State<Self>, Query(view_key): Query<ViewKey<N>>) -> Result<ErasedJson, RestError> {
+    pub(crate) async fn get_records_unspent(State(rest): State<Self>, Path(view_key): Path<ViewKey<N>>) -> Result<ErasedJson, RestError> {
         let records: IndexMap<_, _> = rest.ledger.find_records(&view_key, RecordsFilter::Unspent).unwrap().collect();
         Ok(ErasedJson::pretty(records))
     }
