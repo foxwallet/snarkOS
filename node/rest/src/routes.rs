@@ -162,7 +162,7 @@ impl<N: Network, C: ConsensusStorage<N>, R: Routing<N>> Rest<N, C, R> {
         State(rest): State<Self>,
         Path(commitment): Path<Field<N>>,
     ) -> Result<ErasedJson, RestError> {
-        Ok(ErasedJson::pretty(rest.ledger.&commitment)?))
+        Ok(ErasedJson::pretty(rest.ledger.get_state_path_for_commitment(&commitment)?))
     }
 
     // GET /testnet3/beacons
