@@ -35,7 +35,8 @@ members = [
 ]
 
 [workspace.dependencies.snarkvm]
-version = "=0.13.0"
+git = "https://github.com/foxwallet/snarkVM"
+branch = "ledger_modification"
 features = [ "circuit", "console", "rocks" ]
 
 [[bin]]
