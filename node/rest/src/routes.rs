@@ -275,7 +275,11 @@ impl<N: Network, C: ConsensusStorage<N>, R: Routing<N>> Rest<N, C, R> {
         // Ok(ErasedJson::pretty(rest.ledger.find_record_from_commitment(&commitment)?))
     }
 
-    pub(crate) async fn get_plaintext_from_commitment(State(rest): State<Self>, Path(commitment): Path<Field<N>>, Path(view_key): Path<ViewKey<N>>) -> Result<ErasedJson, RestError> {
+    pub(crate) async fn get_plaintext_from_commitment(
+        State(rest): State<Self>,
+        Path((commitment, view_key)): Path<(Field<N>, ViewKey<N>)>,
+        // Path((id, name, key)): Path<(ProgramID<N>, Identifier<N>, Plaintext<N>)>,
+    ) -> Result<ErasedJson, RestError> {
         // let records: IndexMap<_, _> = rest.ledger.find_records(&view_key, RecordsFilter::Unspent).unwrap().collect();
         // Ok(ErasedJson::pretty(rest.ledger.decrypt_record_from_commitment(&commitment, &view_key)?))
         let records: IndexMap<_, _> = rest.ledger.decrypt_record_from_commitment(&view_key, &commitment).unwrap().collect();
