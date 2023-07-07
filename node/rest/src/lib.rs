@@ -145,8 +145,8 @@ impl<N: Network, C: ConsensusStorage<N>, R: Routing<N>> Rest<N, C, R> {
             .route("/testnet3/records/all/:view_key", get(Self::get_records_all))
             .route("/testnet3/records/spent/:view_key", get(Self::get_records_spent))
             .route("/testnet3/records/unspent/:view_key", get(Self::get_records_unspent))
-            .route("/testnet3/record/:commitment", get(Self::get_record_from_commitment))
-            .route("/testnet3/record/:commitment/:view_key", get(Self::get_plaintext_from_commitment))
+            .route("/testnet3/record/:commitment/cipher", get(Self::get_record_from_commitment))
+            .route("/testnet3/record/:commitment/plain/:view_key", get(Self::get_plaintext_from_commitment))
             // .route("/testnet3/record/spentCheck/:commitment/:view_key", get(Self::get_records_unspent))
 
             // Pass in `Rest` to make things convenient.
