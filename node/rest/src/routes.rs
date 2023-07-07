@@ -270,7 +270,7 @@ impl<N: Network, C: ConsensusStorage<N>, R: Routing<N>> Rest<N, C, R> {
     }
 
     pub(crate) async fn get_record_from_commitment(State(rest): State<Self>, Path(commitment): Path<Field<N>>) -> Result<ErasedJson, RestError> {
-        let records: IndexMap<_, _> = rest.ledger.find_record_from_commintment(&commitment).unwrap().collect();
+        let records: IndexMap<_, _> = rest.ledger.find_record_from_commitment(&commitment).unwrap().collect();
         Ok(ErasedJson::pretty(records))
         // Ok(ErasedJson::pretty(rest.ledger.find_record_from_commitment(&commitment)?))
     }
