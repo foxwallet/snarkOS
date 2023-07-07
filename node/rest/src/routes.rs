@@ -269,14 +269,14 @@ impl<N: Network, C: ConsensusStorage<N>, R: Routing<N>> Rest<N, C, R> {
         Ok(ErasedJson::pretty(records))
     }
 
-    pub(crate) async fn get_record_from_commitment(State(rest): State<Self>, Path(commitment): Path<Field<N>>) -> Result<ErasedJson, RestError> {
-        Ok(ErasedJson::pretty(rest.ledger.find_record_from_commitment(&commitment)?))
-    }
-
-    // pub(crate) async fn get_plaintext_from_commitment(State(rest): State<Self>, Path(commitment): Path<Field<N>>, Path(view_key): Path<ViewKey<N>>) -> Result<ErasedJson, RestError> {
-        // let records: IndexMap<_, _> = rest.ledger.find_records(&view_key, RecordsFilter::Unspent).unwrap().collect();
-        // Ok(ErasedJson::pretty(rest.ledger.decrypt_record_from_commitment(&commitment, &view_key)?))
+    // pub(crate) async fn get_record_from_commitment(State(rest): State<Self>, Path(commitment): Path<Field<N>>) -> Result<ErasedJson, RestError> {
+    //     Ok(ErasedJson::pretty(rest.ledger.find_record_from_commitment(&commitment)?))
     // }
+
+    pub(crate) async fn get_plaintext_from_commitment(State(rest): State<Self>, Path(commitment): Path<Field<N>>, Path(view_key): Path<ViewKey<N>>) -> Result<ErasedJson, RestError> {
+        // let records: IndexMap<_, _> = rest.ledger.find_records(&view_key, RecordsFilter::Unspent).unwrap().collect();
+        Ok(ErasedJson::pretty(rest.ledger.decrypt_record_from_commitment(&commitment, &view_key)?))
+    }
 
     // pub(crate) async fn check_record_spent(State(rest): State<Self>, Path(commitment): Path<Field<N>>, Path(view_key): Path<ViewKey<N>>) -> Result<ErasedJson, RestError> {
         // let records: IndexMap<_, _> = rest.ledger.find_records(&view_key, RecordsFilter::Unspent).unwrap().collect();
